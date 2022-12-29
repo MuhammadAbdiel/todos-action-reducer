@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addGoalActionCreator,
-  deleteGoalActionCreator,
+  asyncAddGoal,
+  asyncDeleteGoal,
+  asyncRecieveGoals,
 } from "../states/goals/action";
 import GoalInput from "./GoalInput";
 import GoalItem from "./GoalItem";
@@ -12,15 +13,18 @@ function GoalsList() {
   const goals = useSelector((states) => states.goals);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(asyncRecieveGoals());
+  }, [dispatch]);
+
   function onAddGoal(text) {
     // TODO: dispatch action ADD_GOAL
-    const id = `goal-${+new Date()}`;
-    dispatch(addGoalActionCreator({ id, text }));
+    dispatch(asyncAddGoal(text));
   }
 
   function onDeleteGoal(id) {
     // TODO: dispatch action DELETE_GOAL
-    dispatch(deleteGoalActionCreator(id));
+    dispatch(asyncDeleteGoal(id));
   }
 
   return (

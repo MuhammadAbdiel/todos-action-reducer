@@ -1,7 +1,23 @@
-import { applyMiddleware, legacy_createStore as createStore } from "redux";
-import { todoDeletionCheck } from "./middlewares";
-import rootReducer from "./rootReducer";
+import { configureStore } from "@reduxjs/toolkit";
+import { thunk, todoDeletionCheck } from "./middlewares";
+import { goalsReducer } from "./goals/reducer";
+import { todosReducer } from "./todos/reducer";
+// import { applyMiddleware, legacy_createStore as createStore } from "redux";
+// import rootReducer from "./rootReducer";
 
-const store = createStore(rootReducer, applyMiddleware(todoDeletionCheck));
+// createStore redux
+// const store = createStore(
+//   rootReducer,
+//   applyMiddleware(thunk, todoDeletionCheck)
+// );
+
+// configureStore @reduxjs/toolkit
+const store = configureStore({
+  reducer: {
+    todos: todosReducer,
+    goals: goalsReducer,
+  },
+  middleware: [thunk, todoDeletionCheck],
+});
 
 export { store };

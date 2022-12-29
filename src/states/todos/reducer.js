@@ -1,3 +1,5 @@
+import { ActionType } from "./action";
+
 function todosReducer(todos = [], action) {
   // First way
   // switch (action.type) {
@@ -9,11 +11,11 @@ function todosReducer(todos = [], action) {
 
   // Second way
   switch (action.type) {
-    case "ADD_TODO":
+    case ActionType.ADD_TODO:
       return [...todos, action.payload];
-    case "DELETE_TODO":
+    case ActionType.DELETE_TODO:
       return todos.filter((todo) => todo.id !== action.payload.id);
-    case "TOGGLE_TODO":
+    case ActionType.TOGGLE_TODO:
       return todos.map((todo) => {
         if (todo.id !== action.payload.id) {
           return todo;
@@ -24,6 +26,8 @@ function todosReducer(todos = [], action) {
           complete: !todo.complete,
         };
       });
+    case ActionType.RECIEVE_TODOS:
+      return action.payload.todos;
     default:
       return todos;
   }
